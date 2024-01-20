@@ -1,16 +1,17 @@
 const button = document.querySelector(".btn");
 
+const fetchData = async () => {
+  console.log("fetching Data");
+  let res = await fetch("https://restcountries.com/v3.1/all");
+  let data = res.json();
+  return data;
+};
+
 button.addEventListener("click", () => {
   console.log("clicked");
-
-  fetch("https://restcountries.com/v3.1/all")
-    .then((res) => {
-      console.log("success ok 200");
-      return res.json();
-    })
-    .then((json) => {
-      console.log("next step");
-      json.forEach((country) => {
+  fetchData()
+    .then((countries) => {
+      countries.forEach((country) => {
         const div = document.createElement("div");
         div.classList.add("cardContent");
         div.insertAdjacentHTML(
@@ -24,8 +25,31 @@ button.addEventListener("click", () => {
 
         document.getElementById("card").appendChild(div);
       });
-      button.setAttribute('disabled', '')
-    });
+    })
+    .catch((err) => console.log("error >> " + err));
+  // fetch("https://restcountries.com/v3.1/all")
+  //   .then((res) => {
+  //     console.log("success ok 200");
+  //     return res.json();
+  //   })
+  //   .then((json) => {
+  //     console.log("next step");
+  //     json.forEach((country) => {
+  //       const div = document.createElement("div");
+  //       div.classList.add("cardContent");
+  //       div.insertAdjacentHTML(
+  //         "beforeend",
+  //         `<h2 class='title'>${country.name.common}</h2>`
+  //       );
+  //       div.insertAdjacentHTML(
+  //         "beforeend",
+  //         `<img src="${country.flags.png}" alt="${country.flags.alt}"/>`
+  //       );
+
+  //       document.getElementById("card").appendChild(div);
+  //     });
+  //     button.setAttribute('disabled', '')
+  //   });
 
   // let xhr = new XMLHttpRequest();
 
@@ -52,3 +76,5 @@ button.addEventListener("click", () => {
 
   // xhr.send();
 });
+
+console.log(", processing ...");
